@@ -1,7 +1,8 @@
-clear all
+%% Import of netcdf-type data, detection of events in the 95%ile, event coincidence based generation of links and calculation of an adjacency matrix
+
 
 pkg load netcdf
-Temp=ncread("gistemp1200_ERSSTv5.nc","tempanomaly");
+Temp=ncread("C:/Users/kemter/Desktop/gistemp1200_ERSSTv5.nc","tempanomaly");
 ROI=rot90(Temp(1:180,1:90,1400:end)); %sample Lat, Lon and timeframe
 clear Temp
 
@@ -21,7 +22,8 @@ clear ROI
 clear D95
 
 ES=zeros(N,N,'uint8');
-
+toc
+tic
 
 for i=1:N
   
@@ -29,7 +31,8 @@ for i=1:N
    
 end
 
-
+toc
+tic
 
 A=ES; %create Adjecency Matrix
 
