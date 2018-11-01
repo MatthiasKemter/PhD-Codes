@@ -3,7 +3,7 @@
 
 pkg load netcdf
 Temp=ncread("C:/Users/kemter/Desktop/gistemp1200_ERSSTv5.nc","tempanomaly");
-ROI=rot90(Temp(1:180,1:90,1500:end)); %sample Lat, Lon and timeframe
+ROI=rot90(Temp(1:180,20:70,1500:end)); %sample Lat, Lon and timeframe
 clear Temp
 
 
@@ -21,9 +21,6 @@ N=x*y;
 D95M=reshape(D95,N,z);  %reshape 3D data into convinient 2D matrix
 D5M=reshape(D5,N,z);  %reshape 3D data into convinient 2D matrix
 
-clear ROI
-clear D95
-clear D5
 
 
 ES=zeros(N,N,'uint8');
@@ -37,9 +34,23 @@ for i=1:N
 end
 
 toc
+
+ES5=zeros(N,N,'uint8');
+
 tic
 
-A=ES; %create Adjecency Matrix
+for i=1:N
+  
+   ES5(i,:)=sum(D5M(i,:)+D5M==2,2);  %check for coinciding events (ones) between each time series
+   
+end
+toc 
+
+ES=ES+ES5;
+
+tic
+
+A=ES5; %create Adjecency Matrix
 
 A=A.*(1+diag(-1*uint8(ones(1,N)))); %make A symmetric and substitute zeros for i=j
 T=prctile(A(:),98); %define threshold of synchronization as 98 percentile
