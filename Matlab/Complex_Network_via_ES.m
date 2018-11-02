@@ -3,7 +3,7 @@
 
 pkg load netcdf
 Temp=ncread("C:/Users/kemter/Desktop/gistemp1200_ERSSTv5.nc","tempanomaly");
-ROI=rot90(Temp(1:180,20:70,1500:end)); %sample Lat, Lon and timeframe
+ROI=rot90(Temp(1:180,20:70,1200:end)); %sample Lat, Lon and timeframe
 clear Temp
 
 
@@ -44,3 +44,9 @@ T=prctile(A(:),98); %define threshold of synchronization as 98 percentile
 A=A>=T; %binarize Adjecency Matrix
 
 toc
+
+%%
+Deg=degrees(A);
+imagesc(reshape(mean(ROI,3),x,y))
+figure
+imagesc(reshape(Deg,x,y))
