@@ -23,10 +23,10 @@ end
 
 %%
 for i=1:size(c,1)
-  b{i,1}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);
+  b{i,1}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);  %only values between 1945 and 2004
 end
 
-x=b(22473==cell2mat(cellfun(@size,b(:),'UniformOutput',false)));  
+x=b(22473==cell2mat(cellfun(@size,b(:),'UniformOutput',false)));  %only stations operating from 1945-2004  
 y=reshape(cell2mat(x),22473,133)';
 
 ROI=y;
@@ -38,12 +38,12 @@ D95=ROI>=perc95;  %calculate binary matrix containing ones for events (95%ile)
 
 N=size(D95)(1);
 
-ES=zeros(N,N,'uint8');
+ES=zeros(N,N,'uint32');
 
 tic
 for i=1:N
   
-   ES(i,:)=sum(abs(D95(i,:)+D95)==2,2);  %check for coinciding events (ones) between each time series
+   ES(i,:)=sum(D95(i,:)+D95==2,2);  %check for coinciding events (ones) between each time series
    
 end
 toc
