@@ -11,3 +11,50 @@ for i=1:numel(files)
   i
 end
 toc
+
+
+for i=1:size(c,1)
+  c{i,2}(isnan(c{i,2}))=0;
+end
+
+for i=1:size(c,1)
+  c{i,2}(c{i,2}==-9999)=0;
+end
+
+%%
+for i=1:size(c,1)
+  b{i,1}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);
+end
+
+x=b(22473==cell2mat(cellfun(@size,b(:),'UniformOutput',false)));  
+y=reshape(cell2mat(x),22473,133)';
+
+ROI=y;
+clear x
+clear y
+
+perc95=prctile(ROI,95,2); 
+D95=ROI>=perc95;  %calculate binary matrix containing ones for events (95%ile)
+
+N=size(D95)(1);
+
+ES=zeros(N,N,'uint8');
+
+tic
+for i=1:N
+  
+   ES(i,:)=sum(abs(D95(i,:)+D95)==2,2);  %check for coinciding events (ones) between each time series
+   
+end
+toc
+
+
+tic
+
+A=ES; %create Adjecency Matrix
+
+A=A.*(1+diag(-1*uint8(ones(1,N)))); %make A symmetric and substitute zeros for i=j
+T=prctile(A(:),95); %define threshold of synchronization as 98 percentile
+A=A>=T; %binarize Adjecency Matrix
+
+toc
