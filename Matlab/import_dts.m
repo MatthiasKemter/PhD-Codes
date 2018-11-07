@@ -48,7 +48,8 @@ for i=1:N
 end
 toc
 
-
+Correlation=corr(ROI',ROI');  
+  
 tic
 
 A=ES; %create Adjecency Matrix
@@ -58,3 +59,154 @@ T=prctile(A(:),95); %define threshold of synchronization as 98 percentile
 A=A>=T; %binarize Adjecency Matrix
 
 toc
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+tic
+
+AC=Correlation; %create Adjecency Matrix
+
+AC=AC.*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
+T=prctile(AC(:),95); %define threshold of synchronization as 98 percentile
+AC=AC>=T; %binarize Adjecency Matrix
+
+toc
+
+ESync=zeros(N,N);
+
+ROIES=ROI+0.1;
+
+tic
+for i=1:N
+    for j=1:N
+        ESync(i,j)=Event_Sync(ROIES(i,:),ROIES(j,:));
+    end
+end
+toc
+
+AES=ESync; %create Adjecency Matrix
+
+AES=AES.*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
+T=prctile(AES(:),95); %define threshold of synchronization as 98 percentile
+AES=AES>=T; %binarize Adjecency Matrix
+
+ESynchro=zeros(N,N);
+
+
+ROI10=ROI(:,end-3650:end);
+tx=1:size(ROI,2);
+ty=1:size(ROI,2);
+
+parpool(4)
+tic
+for i=1:N
+    parfor j=i:N
+        [ESynchro(i,j),~]=eventsynchro(tx,ROI(i,:),ty,ROI(j,:),0,0.95); %eventsynchro was modified in lines 46+47 to only include high events
+    end
+end
+toc
+
+AESy=ESynchro; %create Adjecency Matrix
+
+AESy=(AESy+AESy').*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
+T=prctile(AESy(:),95); %define threshold of synchronization as 98 percentile
+AESy=AESy>=T; %binarize Adjecency Matrix
+%%
+
+G=graph(A);
+Deg=degree(G);
+
+figure(1)
+h = plot(G);
+h.XData=cell2mat(c(:,4));
+h.YData=cell2mat(c(:,5));
+h.NodeLabel=c(:,3);
+h.NodeCData=Deg;
+h.MarkerSize=10;
+
+[bin,binsize] = conncomp(G);
+idx = binsize(bin) == max(binsize);
+GC = subgraph(G, idx);
+figure(3)
+h2=plot(GC);
+h2.XData=cell2mat(c(idx,4));
+h2.YData=cell2mat(c(idx,5));
+h2.NodeLabel=c(idx,3);
+h2.NodeCData=Deg(idx);
+h2.MarkerSize=10;
+
+%%
+
+G=graph(AC);
+Deg=degree(G);
+
+figure(4)
+h = plot(G);
+h.XData=cell2mat(c(:,4));
+h.YData=cell2mat(c(:,5));
+h.NodeLabel=c(:,3);
+h.NodeCData=Deg;
+h.MarkerSize=10;
+
+[bin,binsize] = conncomp(G);
+idx = binsize(bin) == max(binsize);
+GC = subgraph(G, idx);
+figure(2)
+h2=plot(GC);
+h2.XData=cell2mat(c(idx,4));
+h2.YData=cell2mat(c(idx,5));
+h2.NodeLabel=c(idx,3);
+h2.NodeCData=Deg(idx);
+h2.MarkerSize=10;
+
+%%
+
+G=graph(AES);
+Deg=degree(G);
+
+figure(5)
+h = plot(G);
+h.XData=cell2mat(c(:,4));
+h.YData=cell2mat(c(:,5));
+h.NodeLabel=c(:,3);
+h.NodeCData=Deg;
+h.MarkerSize=10;
+
+[bin,binsize] = conncomp(G);
+idx = binsize(bin) == max(binsize);
+GC = subgraph(G, idx);
+figure(6)
+h2=plot(GC);
+h2.XData=cell2mat(c(idx,4));
+h2.YData=cell2mat(c(idx,5));
+h2.NodeLabel=c(idx,3);
+h2.NodeCData=Deg(idx);
+h2.MarkerSize=10;
+
+%%
+
+G=graph(AESy);
+Deg=degree(G);
+
+figure(7)
+h = plot(G);
+h.XData=cell2mat(c(:,4));
+h.YData=cell2mat(c(:,5));
+h.NodeLabel=c(:,3);
+h.NodeCData=Deg;
+h.MarkerSize=10;
+
+[bin,binsize] = conncomp(G);
+idx = binsize(bin) == max(binsize);
+GC = subgraph(G, idx);
+figure(8)
+h2=plot(GC);
+h2.XData=cell2mat(c(idx,4));
+h2.YData=cell2mat(c(idx,5));
+h2.NodeLabel=c(idx,3);
+h2.NodeCData=Deg(idx);
+h2.MarkerSize=10;
+=======
+>>>>>>> parent of 8667acc... Station coordinates and names are associated to time series, network plot based on coordinates added
+=======
+>>>>>>> parent of 8667acc... Station coordinates and names are associated to time series, network plot based on coordinates added
