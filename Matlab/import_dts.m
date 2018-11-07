@@ -5,7 +5,7 @@ files = glob('C:/Users/kemter/Desktop/time_series/*.dts');
 tic
 for i=1:numel(files)
   [~, name] = fileparts (files{i});
-  [a,b]=textread(["C:/Users/kemter/Desktop/time_series/" name ".dts"], "%s %f");
+  [a,b]=importdata(["C:/Users/kemter/Desktop/time_series/" name ".dts"], "%s %f");
   c{i,1}=datenum(char(a), 'dd-mm-yyyy');
   c{i,2}=b;
   i
@@ -23,20 +23,23 @@ end
 
 %%
 for i=1:size(c,1)
-  b{i,1}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);  %only values between 1945 and 2004
+  c{i,6}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);  %only values between 1945 and 2004
 end
 
-x=b(22473==cell2mat(cellfun(@size,b(:),'UniformOutput',false)));  %only stations operating from 1945-2004  
-y=reshape(cell2mat(x),22473,133)';
+for i=1:size(c,1)
+    if size(c{i,6},1)~=22473
+        c(i,:)=[];  %only values between 1945 and 2004
+    end
+end
 
-ROI=y;
-clear x
-clear y
+
+ROI=reshape(cell2mat(c(:,6)),size(c,1),22473);
+
 
 perc95=prctile(ROI,95,2); 
 D95=ROI>=perc95;  %calculate binary matrix containing ones for events (95%ile)
 
-N=size(D95)(1);
+N=size(D95,1);
 
 ES=zeros(N,N,'uint32');
 
@@ -59,8 +62,7 @@ T=prctile(A(:),95); %define threshold of synchronization as 98 percentile
 A=A>=T; %binarize Adjecency Matrix
 
 toc
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 tic
 
@@ -206,7 +208,3 @@ h2.YData=cell2mat(c(idx,5));
 h2.NodeLabel=c(idx,3);
 h2.NodeCData=Deg(idx);
 h2.MarkerSize=10;
-=======
->>>>>>> parent of 8667acc... Station coordinates and names are associated to time series, network plot based on coordinates added
-=======
->>>>>>> parent of 8667acc... Station coordinates and names are associated to time series, network plot based on coordinates added
