@@ -38,13 +38,13 @@ N=size(ROI,1);
 ESynchro=zeros(N,N);
 
 
-ROI10=ROI(:,end-3650:end);
+ROI=ROI(:,1:7300);
 tx=1:size(ROI,2);
 ty=1:size(ROI,2);
 
 myCluster = parcluster('local');
 myCluster.NumThreads = 2;
-parpool(4)
+parpool(3)
 tic
 for i=1:N
     for j=i+1:N
@@ -54,23 +54,24 @@ for i=1:N
 end
 toc
 
-AESy=ESynchro; %create Adjecency Matrix
-N=size(AESy,1);
+Adj=ESynchro; %create Adjecency Matrix
+N=size(Adj,1);
 
-AESy=(AESy+AESy').*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
-T=prctile(AESy(:),95); %define threshold of synchronization as 95 percentile
-AESy=AESy>T; %binarize Adjecency Matrix
+Adj=(Adj+Adj').*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
+T=prctile(Adj(:),95); %define threshold of synchronization as 95 percentile
+Adj=Adj>T; %binarize Adjecency Matrix
 
 %%
 
-G=graph(AESy);
+G=graph(Adj);
 Deg=degree(G);
 
 figure(1)
+G.Nodes.Name = c(:,3);
 h = plot(G);
 h.XData=cell2mat(c(:,4));
 h.YData=cell2mat(c(:,5));
-h.NodeLabel=c(:,3);
+%h.NodeLabel=c(:,3);
 h.NodeCData=Deg;
 h.MarkerSize=10;
 colorbar
@@ -78,6 +79,8 @@ colorbar
 [bin,binsize] = conncomp(G);
 idx = binsize(bin) == max(binsize);
 GC = subgraph(G, idx);
+GC.Nodes.Name = c(idx,3);
+
 figure(2)
 h2=plot(GC);
 h2.XData=cell2mat(c(idx,4));
