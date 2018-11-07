@@ -42,6 +42,8 @@ ROI10=ROI(:,end-3650:end);
 tx=1:size(ROI,2);
 ty=1:size(ROI,2);
 
+myCluster = parcluster('local');
+myCluster.NumThreads = 2;
 parpool(3)
 tic
 for i=1:N
