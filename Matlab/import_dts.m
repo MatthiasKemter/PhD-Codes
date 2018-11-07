@@ -33,7 +33,8 @@ for i=1:size(c,1)
 end
 
 
-ROI=reshape(cell2mat(c(:,6)),size(c,1),22473);
+ROI=reshape(cell2mat(c(:,6)),22473,size(c,1));
+ROI=ROI';
 
 
 perc95=prctile(ROI,95,2); 
@@ -99,12 +100,13 @@ ROI10=ROI(:,end-3650:end);
 tx=1:size(ROI,2);
 ty=1:size(ROI,2);
 
-parpool(4)
+parpool(3)
 tic
 for i=1:N
     parfor j=i:N
         [ESynchro(i,j),~]=eventsynchro(tx,ROI(i,:),ty,ROI(j,:),0,0.95); %eventsynchro was modified in lines 46+47 to only include high events
     end
+    i
 end
 toc
 
@@ -112,7 +114,7 @@ AESy=ESynchro; %create Adjecency Matrix
 
 AESy=(AESy+AESy').*(1+diag(-1*ones(1,N))); %make A symmetric and substitute zeros for i=j
 T=prctile(AESy(:),95); %define threshold of synchronization as 98 percentile
-AESy=AESy>=T; %binarize Adjecency Matrix
+AESy=AESy>T; %binarize Adjecency Matrix
 %%
 
 G=graph(A);
@@ -205,6 +207,15 @@ figure(8)
 h2=plot(GC);
 h2.XData=cell2mat(c(idx,4));
 h2.YData=cell2mat(c(idx,5));
-h2.NodeLabel=c(idx,3);
+h2.NodeLabel=[];%c(idx,3);
 h2.NodeCData=Deg(idx);
+h2.MarkerSize=10;
+
+figure(9)
+h2=plot(GC);
+h2.XData=cell2mat(c(idx,4));
+h2.YData=cell2mat(c(idx,5));
+h2.NodeLabel=[];%c(idx,3);
+Betw=centrality(GC,'betweenness');
+h2.NodeCData=Betw;
 h2.MarkerSize=10;
