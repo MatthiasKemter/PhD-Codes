@@ -26,11 +26,9 @@ for i=1:size(c,1)
   c{i,6}=c{i,2}(c{i,1}>=710398 & c{i,1}<732871);  %only values between 1945 and 2004
 end
 
-for i=1:size(c,1)
-    if size(c{i,6},1)~=22473
-        c(i,:)=[];  %only values between 1945 and 2004
-    end
-end
+
+q=cell2mat(cellfun(@size,c(:,6),'UniformOutput',false));
+c=c(q(:,1)==22473,:); %only values between 1945 and 2004
 
 
 ROI=reshape(cell2mat(c(:,6)),22473,size(c,1));
