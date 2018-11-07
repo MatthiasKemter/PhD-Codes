@@ -1,17 +1,22 @@
 
 clear all
-files = glob('C:/Users/kemter/Desktop/time_series/*.dts');
 
-tic
-for i=1:numel(files)
-  [~, name] = fileparts (files{i});
-  [a,b]=importdata(["C:/Users/kemter/Desktop/time_series/" name ".dts"], "%s %f");
-  c{i,1}=datenum(char(a), 'dd-mm-yyyy');
-  c{i,2}=b;
-  i
+gauges=shaperead('C:/Users/kemter/Desktop/gauges/gauges_WGS84.shp');
+
+files = dir('C:/Users/kemter/Desktop/time_series/*.dts');
+F=numel(files);
+
+for i=1:F;
+    filename = dir(['C:/Users/kemter/Desktop/time_series/' gauges(i).name '*.dts']);
+    a=textscan(fopen(['C:/Users/kemter/Desktop/time_series/' filename(1).name]), "%s %f");
+    c{i,1}=datenum(a{:,1}, 'dd-mm-yyyy');
+    c{i,2}=a{:,2};
+    c{i,3}=gauges(i).name;
+    c{i,4}=gauges(i).X;
+    c{i,5}=gauges(i).Y;
+    fclose('all');
+    i
 end
-toc
-
 
 for i=1:size(c,1)
   c{i,2}(isnan(c{i,2}))=0;
@@ -38,7 +43,7 @@ N=size(ROI,1);
 ESynchro=zeros(N,N);
 
 
-ROI=ROI(:,1:730);
+ROI=ROI(:,1:7300);
 tx=1:size(ROI,2);
 ty=1:size(ROI,2);
 

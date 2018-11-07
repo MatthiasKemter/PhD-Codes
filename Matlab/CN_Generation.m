@@ -28,8 +28,7 @@ pool=parpool(3);    %parallel processing for higher performance
 tic
 for i=1:N
     parfor j=i+1:N
-        [ES(i,j),~]=eventsynchro(tx,Data(i,:),ty,Data(j,:),0,percentileES); 
-        %eventsynchro was modified in lines 46+47 to only include high events
+        [ES(i,j),~]=eventsynchro(tx,Data(i,:),ty,Data(j,:),0,percentileES); %eventsynchro was modified in lines 46+47 to only include high events
     end
 end
 toc
