@@ -38,7 +38,7 @@ N=size(ROI,1);
 ESynchro=zeros(N,N);
 
 
-ROI=ROI(:,1:7300);
+ROI=ROI(:,1:730);
 tx=1:size(ROI,2);
 ty=1:size(ROI,2);
 
@@ -47,7 +47,7 @@ myCluster.NumThreads = 2;
 parpool(3)
 tic
 for i=1:N
-    for j=i+1:N
+    parfor j=i+1:N
         [ESynchro(i,j),~]=eventsynchro(tx,ROI(i,:),ty,ROI(j,:),0,0.95); %eventsynchro was modified in lines 46+47 to only include high events
     end
     i
