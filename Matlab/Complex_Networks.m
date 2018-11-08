@@ -35,6 +35,10 @@ for i=1:size(c,1)
   c{i,6}=c{i,2}(c{i,1}>=715876 & c{i,1}<730486);  %only values between 1960 and 2000
 end
 
+for i=1:size(c,1)
+  c{i,7}=(715876:730486-1)';  %timesteps
+end
+
 q=cell2mat(cellfun(@size,c(:,6),'UniformOutput',false));
 c=c(q(:,1)==22473,:); %only values between 1945 and 2004
 
