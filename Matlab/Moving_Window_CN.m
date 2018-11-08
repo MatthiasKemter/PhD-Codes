@@ -17,19 +17,19 @@ end
 windowsize=ceil(size(Data,2)/10);
 
 if nargin>=4
-    windowsize=varargin{3};
+    windowsize=ceil(varargin{3});
 end
 
 offset=ceil(windowsize/2);
 
 if nargin==5
-    offset=varargin{4};
+    offset=ceil(varargin{4});
 end
 
-Nwindows=ceil(size(Data,2)/offset);
+Nwindows=ceil((size(Data,2)-windowsize)/offset);
 
-begin=(0:Nwindows-1)*offset+1;
-stop=(1:Nwindows)*offset;
+begin=1:offset:size(Data,2)-windowsize;
+stop=begin+windowsize;
 stop(end)=size(Data,2);
 
 for i=1:Nwindows
@@ -38,7 +38,7 @@ end
 
 A=cell(Nwindows,1);
 
-pool=parpool(3);    %parallel processing for higher performance
+pool=parpool(4);    %parallel processing for higher performance
 
 parfor i=1:Nwindows
     A{i}=CN_Generation(Datasplit{i},percentileES,percentileLink);
