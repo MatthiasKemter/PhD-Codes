@@ -22,7 +22,9 @@ h.YData=cell2mat(c(:,5));
 h.NodeCData=Deg;
 h.MarkerSize=10;
 colorbar
-title(i)
+firstYear=datestr(c{1,7}(10+(i-1)*offset),'yyyy');
+lastYear=datestr(c{1,7}(10+windowSize+(i-1)*offset),'yyyy');
+title([firstYear '-' lastYear])
 hold off;
 end
 
