@@ -1,5 +1,5 @@
 function [A] = Moving_Window_CN(Data,varargin)
-%Moving_Window_CN generates multiple complex networks in a moving window.
+%MOVING_WINDOW_CN generates multiple complex networks in a moving window.
 %
 %   
 
