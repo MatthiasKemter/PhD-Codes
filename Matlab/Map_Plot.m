@@ -10,10 +10,10 @@ Rivers = shaperead('C:/Users/kemter/Desktop/gauges/Europe_Hydrography.shp');
 [~,index] = sortrows({Rivers.NAME}.'); Rivers = Rivers(index); clear index
 Rivers=Rivers([46 70 78 99 149 168 185 225 226 227 231 269 352 353]);
 
-figure(1)
+figure(2)
 j=1;
 
-for i=1:2:11%size(G,2)
+for i=7:1:11%size(G,2)
 Deg=degree(G{i});
 s(j)=subplot(2,3,j);
 j=j+1;
