@@ -12,6 +12,9 @@ h.MarkerSize=10;
 colorbar
 
 %%
+Betw=centrality(G,'betweenness');
+Deg=Betw;
+
 x=max(PrecData(:,366));
 y=max(PrecData(:,367));
 
@@ -22,11 +25,13 @@ for i=1:x;
         if ~isempty(find(PrecData(:,366)==i & PrecData(:,367)==j))
             DegMap(i,j)=Deg(k);
             k=k+1;
+        else
+            DegMap(i,j)=NaN;
         end
     end
 end
 
 
-imagesc('XData',PrecData(:,366),'YData',PrecData(:,367),'CData',Deg)
+imagesc(rot90(DegMap,1))
 
 
