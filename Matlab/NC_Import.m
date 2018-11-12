@@ -1,17 +1,20 @@
 Prec=ncread('C:/Users/kemter/Downloads/precip.1979.nc','precip');
-PrecRot=rot90(flipud(Prec(:,:,:)),3);
-PrecShift=[PrecRot(:,361:720,:) PrecRot(:,1:360,:)];
-PrecEuro=PrecShift(35:110,335:440,:);
+PrecRot=fliplr(Prec(:,:,:));
+PrecShift=[PrecRot(361:720,:,:);PrecRot(1:360,:,:)];
+PrecEuro=PrecShift(335:440,250:320,:);
 PrecEuro(PrecEuro==min(PrecEuro))=NaN;
+PrecCell=mat2cell(PrecEuro,ones(1,106),ones(1,71),365);
 
+for i=1:size(PrecEuro,1)
+    for j=1:size(PrecEuro,2)
+        x(i,j)=j;
+        y(i,j)=i;
+    end
+end
 
 PrecMat=reshape(PrecEuro,numel(PrecEuro(:,:,1)),size(PrecEuro,3));
 
-x=repmat((1:size(PrecEuro,1))',size(PrecEuro,2),1);
-y=[];
-for i=1:size(PrecEuro,2)
-    y=[y;i*ones(size(PrecEuro,1),1)];
-end
+
 
 PrecData=[PrecMat x y];
 
