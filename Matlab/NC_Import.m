@@ -1,4 +1,4 @@
-Prec=ncread('C:/Users/kemter/Downloads/precip.1979.nc','precip');
+Prec=ncread('C:\Users\kemter\Desktop\JRA_55\precip.1979.nc','precip');
 PrecRot=fliplr(Prec(:,:,:));
 PrecShift=[PrecRot(361:720,:,:);PrecRot(1:360,:,:)];
 PrecEuro=PrecShift(335:440,250:320,:);
