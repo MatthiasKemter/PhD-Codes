@@ -4,8 +4,8 @@ Deg=degree(G);
 figure(2)
 %G.Nodes.Name = c(:,3);
 h = plot(G);
-h.XData=PrecData(:,366);
-h.YData=PrecData(:,367);
+h.XData=subset(:,end-1);
+h.YData=subset(:,end);
 %h.NodeLabel=c(:,3);
 h.NodeCData=Deg;
 h.MarkerSize=10;
