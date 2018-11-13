@@ -19,11 +19,11 @@ end
 
 PrecData=single([PrecDown x y]);
 
-subset=PrecData(PrecData(:,end-1)>=34 & PrecData(:,end-1)<=52 & PrecData(:,end)>=25 & PrecData(:,end)<=42,:);
+subset=PrecData(PrecData(:,end-1)>=34 & PrecData(:,end-1)<=52 & PrecData(:,end)>=30 & PrecData(:,end)<=46,:);
 
 for i=1:size(subset,1)
-    subset(i,22099)=(subset(i,22097)-1)*0.562+-13;
-    subset(i,22100)=(subset(i,22098)-1)*0.562+33;
+    subset(i,22099)=(subset(i,22097)-1)*0.562-13;
+    subset(i,22100)=72-(subset(i,22098)-1)*0.562;
 end
 %%
 
