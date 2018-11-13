@@ -24,17 +24,17 @@ ES=zeros(N,N);  %event synchronization matrix
 tx=1:size(Data,2);  %timesteps
 ty=1:size(Data,2);
 
-pool=parpool(4);    %parallel processing for higher performance
+%pool=parpool(4);    %parallel processing for higher performance
 tic
 for i=1:N
-    tic
-    parfor j=i+1:N
+    %tic
+    for j=i+1:N
         [ES(i,j),~]=eventsynchro(tx,Data(i,:),ty,Data(j,:),0,percentileES); %eventsynchro was modified in lines 46+47 to only include high events
     end
-    toc
+    %toc
 end
 toc
-delete(pool);
+%delete(pool);
 
 Adj=ES; %create Adjecency Matrix
 N=size(Adj,1);
