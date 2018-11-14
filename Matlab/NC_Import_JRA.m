@@ -9,7 +9,7 @@ for i=1:F
     i
 end
 
-PrecDown=reshape(sum(reshape(Prec',4,[]),1),[],size(Prec, 1))';
+PrecDown=reshape(sum(reshape(Prec',4,[]),1),[],size(Prec, 1))'; %downsample to 1/day
 
 x=single(repmat((1:size(input,1))',size(input,2),1));
 y=single([]);
