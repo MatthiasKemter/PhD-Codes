@@ -25,17 +25,17 @@ ES=zeros(N1,N2);  %event synchronization matrix
 t1=1:size(Layer1,2);  %timesteps
 t2=1:size(Layer2,2);
 
-%pool=parpool(4);    %parallel processing for higher performance
+pool=parpool(4);    %parallel processing for higher performance
 tic
 for i=1:N1
-    %tic
-    for j=1:N2
+    tic
+    parfor j=1:N2
         [ES(i,j),~]=eventsynchro(t1,Layer1(i,:),t2,Layer2(j,:),0,percentileES); %eventsynchro was modified in lines 46+47 to only include high events
     end
-    %toc
+    toc
 end
 toc
-%delete(pool);
+delete(pool);
 
 Adj=ES; %create Adjecency Matrix
 
