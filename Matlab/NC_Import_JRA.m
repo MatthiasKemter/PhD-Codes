@@ -1,4 +1,4 @@
-files = dir(['C:\Users\kemter\Desktop\JRA_55\' '*.nc']);
+files = dir(['C:\Users\kemter\Documents\Data\Precipitation\JRA_55\' '*.nc']);
 F=numel(files);
 Prec=single([]);
 
@@ -25,6 +25,10 @@ for i=1:size(subset,1)
     subset(i,22099)=(subset(i,22097)-1)*0.562-13;
     subset(i,22100)=72-(subset(i,22098)-1)*0.562;
 end
+
+diff=datenum('31.12.2010','dd.mm.yyyy')-datenum('01.01.1958','dd.mm.yyyy');
+subset_time=subset(:,[1:diff+1 end-3:end]);
+
 %%
 
 A=CN_Generation(subset(:,1:end-2),0.95,0.98);
