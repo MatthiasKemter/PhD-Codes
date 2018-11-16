@@ -1,6 +1,6 @@
 %%
 
-borders=shaperead('C:/Users/kemter/Desktop/gauges/TM_WORLD_BORDERS-0.3.shp');
+borders=shaperead('C:\Users\kemter\Documents\Data\Shapes\TM_WORLD_BORDERS-0.3.shp');
 tborders=struct2table(borders);
 europe=borders([tborders{:,12}==150]);
 
