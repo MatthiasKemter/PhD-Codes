@@ -7,6 +7,9 @@ function [Adj] = CN_Generation(Data,varargin)
 %   ES value within the percentile given as the third input variable
 %   (percentileLink). The standard value is 0.95. The function returns a
 %   binarized, symmetric adjacency matrix (Adj).
+%
+%   EXAMPLE:
+%       A=CN_Generation(discharge,0.95,0.95);
 
 percentileES=0.95;
 percentileLink=0.95;
@@ -29,7 +32,8 @@ tic
 for i=1:N
     tic
     parfor j=i+1:N
-        [ES(i,j),~]=eventsynchro(tx,Data(i,:),ty,Data(j,:),0,percentileES); %eventsynchro was modified in lines 46+47 to only include high events
+        [ES(i,j),~]=eventsynchro(tx,Data(i,:),ty,Data(j,:),0,percentileES);
+        %eventsynchro was modified in lines 46+47 to only include high events
     end
     toc
 end
