@@ -31,10 +31,10 @@ csvwrite('C:\Users\kemter\Documents\Data\edgelist.csv',edgelist)
 
 %%
 
-nodes=(1:(size(A_dis,1)+size(A_prec,1)))';
-Lat=[cell2mat(c(:,4));subset_time(:,end-1)];
-Lon=[cell2mat(c(:,5));subset_time(:,end)];
+nodes=(1:(size(discharge,1)+size(subset_time,1)))';
+Lat=[cell2mat(raw(:,3));subset_time(:,end)];
+Lon=[cell2mat(raw(:,4));subset_time(:,end-1)];
 
-layout=[nodes Lat Lon];
-csvwrite('C:\Users\kemter\Documents\Data\layer_layout.csv',layout)
+layout=array2table([nodes Lat Lon],'VariableNames',{'nodeID','nodeLat','nodeLong'});
+writetable(layout,'C:\Users\kemter\Documents\Data\Multilayer_Networks\layer_layout.csv')
 
