@@ -1,12 +1,14 @@
 function [Adj] = Cross_CN_Generation(Layer1,Layer2,varargin)
 %CROSS_CN_GENERATION generates a complex network between two layers.
+%   Events are those entries of the timeseries (Layer1 and Layer2) that 
+%   exceed the respective percentile given as the thrid input variable
+%   (percentileES). Edges are placed between stations with an ES value 
+%   within the percentile given as the fourth input variable (percentileLink).
+%   The standard value for both percentiles is 95%. The function returns a
+%   binarized adjacency matrix (Adj).
 %
-%   Events are those entries of the timeseries (Data) that exceed the 
-%   percentile given as the second input variable (percentileES). The
-%   standard value is 0.95. Edges are placed between stations with an
-%   ES value within the percentile given as the third input variable
-%   (percentileLink). The standard value is 0.95. The function returns a
-%   binarized, symmetric adjacency matrix (Adj).
+%   EXAMPLE:
+%       A_cross=Cross_CN_Generation(discharge,subset_time(:,1:end-4),0.95,0.95);
 
 percentileES=0.95;
 percentileLink=0.95;
@@ -30,7 +32,8 @@ tic
 for i=1:N1
     tic
     parfor j=1:N2
-        [ES(i,j),~]=eventsynchro(t1,Layer1(i,:),t2,Layer2(j,:),0,percentileES); %eventsynchro was modified in lines 46+47 to only include high events
+        [ES(i,j),~]=eventsynchro(t1,Layer1(i,:),t2,Layer2(j,:),0,percentileES);
+        %eventsynchro was modified in lines 46+47 to only include high events
     end
     toc
 end
