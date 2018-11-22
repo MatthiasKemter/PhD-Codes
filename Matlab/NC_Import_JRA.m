@@ -24,7 +24,7 @@ clear Prec
 
 PrecData=single([PrecDown posMat]);
 
-subset=PrecData(PrecData(:,end-1)>=46 & PrecData(:,end-1)<=56 & PrecData(:,end)>=5 & PrecData(:,end)<=17,:);
+subset=PrecData(PrecData(:,end-1)>=36 & PrecData(:,end-1)<=71 & PrecData(:,end)>=-10 & PrecData(:,end)<=40,:);
 
 diff=datenum('31.12.2010','dd.mm.yyyy')-datenum('01.01.1958','dd.mm.yyyy');
 subset_time=subset(:,[1:diff+1 end-1:end]);
