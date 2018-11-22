@@ -49,7 +49,10 @@ A=cell(Nwindows,1);
 pool=parpool(4);    %parallel processing for higher performance
 
 parfor i=1:Nwindows
+    tic
     A{i}=CN_Generation(Datasplit{i},percentileES,percentileLink);
+    toc
+    i
 end
 
 delete(pool);
