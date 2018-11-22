@@ -1,6 +1,6 @@
-input=single(ncread(['C:\Users\kemter\Documents\Data\E_OBS\rr_0.50deg_reg_v17.0.nc'],'rr'));
-lon=single(ncread(['C:\Users\kemter\Documents\Data\E_OBS\rr_0.50deg_reg_v17.0.nc'],'longitude'));
-lat=single(ncread(['C:\Users\kemter\Documents\Data\E_OBS\rr_0.50deg_reg_v17.0.nc'],'latitude'));
+input=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'rr'));
+lon=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'longitude'));
+lat=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'latitude'));
 time=datetime(712223+(1:size(input,3)),'ConvertFrom','datenum');
 
 lat=repmat(lat',232,1);
@@ -14,4 +14,7 @@ PrecData=reshape(input,N,[]);
 PrecData(nansum(input(:,:,1:end-2),3)<=0,:) = [];
 
 subset=PrecData(PrecData(:,end-1)>=36 & PrecData(:,end-1)<=72 & PrecData(:,end)>=-11 & PrecData(:,end)<=40,:);
+subset=PrecData(PrecData(:,end-1)>=42 & PrecData(:,end-1)<=72 & PrecData(:,end)>=-5 & PrecData(:,end)<=32,:);
 
+diff=datenum('31.12.2011','dd.mm.yyyy')-datenum('01.01.1952','dd.mm.yyyy');
+subset_time=subset(:,[731:731+diff end-1:end]);
