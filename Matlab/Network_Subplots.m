@@ -12,41 +12,45 @@ Rivers=Rivers([46 70 78 99 149 168 185 225 226 227 231 269 352 353]);
 
 %% for station data
 
-figure(2)
+figure(3)
 j=1;
 
-for i=1:3:16%size(G,2)
+for i=7:1:12%size(G,2)
 Deg=degree(G{i});
 s(j)=subplot(2,3,j);
 j=j+1;
-mapshow(GER, 'FaceColor', [0.9 0.9 0.7]);
+%mapshow(GER, 'FaceColor', [0.9 0.9 0.7]);
+%plot(coastlon, coastlat,'k')
+geoshow('landareas.shp', 'FaceColor', [0.9 0.9 0.7])
 hold;
-mapshow(Rivers,'LineWidth',2);
-G{i}.Nodes.Name = c(:,3);
+mapshow(Rivers,'LineWidth',1.5);
+%G{i}.Nodes.Name = raw(:,3);
 h = plot(G{i});
-h.XData=cell2mat(c(:,4));
-h.YData=cell2mat(c(:,5));
+h.XData=cell2mat(raw5212(:,4));
+h.YData=cell2mat(raw5212(:,3));
 h.NodeCData=Deg;
-%Betw=centrality(G{i},'betweenness');
-%h.NodeCData=Betw/max(Betw);
+Betw=centrality(G{i},'betweenness');
+h.NodeCData=Betw/max(Betw);
 h.NodeLabel=[];
-h.MarkerSize=8;
+h.MarkerSize=6;
 h.LineWidth=0.2;
-h.EdgeColor='k';
+h.EdgeColor='r';
 %colorbar
-xlim([5 15]);
-ylim([47 55]);
-firstYear=datestr(c{1,7}(1+(i-1)*offset),'yyyy');
-lastYear=datestr(c{1,7}(1+windowSize+(i-1)*offset),'yyyy');
+%xlim([5 15]);  %GER
+%ylim([47 55]); %GER
+xlim([-10 32]); %Europe
+ylim([36 72]);  %Europe
+firstYear=datestr(raw5212{1,7}(1+(i-1)*offset),'yyyy');
+lastYear=datestr(raw5212{1,7}(1+windowSize+(i-1)*offset),'yyyy');
 title([firstYear '-' lastYear],'FontSize',14);
 hold off;
 axis off;
 end
 
-s(1).Position=[-0.02 0.53 0.3 0.43];
+s(1).Position=[-0.0 0.53 0.3 0.43];
 s(2).Position=[0.33 0.53 0.3 0.43];
 s(3).Position=[0.67 0.53 0.3 0.43];
-s(4).Position=[-0.02 0.03 0.3 0.43];
+s(4).Position=[-0.0 0.03 0.3 0.43];
 s(5).Position=[0.33 0.03 0.3 0.43];
 s(6).Position=[0.67 0.03 0.3 0.43];
 
