@@ -1,45 +1,46 @@
 for i=1:size(A)
-G{i}=graph(A{i});
+    G{i}=graph(A{i});   %create graph for each adjacency matrix
 end
 
 GER = shaperead('C:/Users/kemter/Desktop/gauges/TM_WORLD_BORDERS-0.3.shp');
 [~,index] = sortrows({GER.NAME}.'); GER = GER(index); clear index
-GER=GER(82);
+GER=GER(82);    %borders of Germany
 
 Rivers = shaperead('C:/Users/kemter/Desktop/gauges/Europe_Hydrography.shp');
 [~,index] = sortrows({Rivers.NAME}.'); Rivers = Rivers(index); clear index
 Rivers=Rivers([46 70 78 99 149 168 185 225 226 227 231 269 352 353]);
+%important German rivers
 
 %% for station data
 
-figure(3)
+figure(2)
 j=1;
+windows=[1 3 5 7 9 11];    %define 6 time windows of interest here
 
-for i=7:1:12%size(G,2)
-Deg=degree(G{i});
+for i=windows
+Deg=degree(G{i});   %calculate degree centrality of all nodes
 s(j)=subplot(2,3,j);
 j=j+1;
-%mapshow(GER, 'FaceColor', [0.9 0.9 0.7]);
-%plot(coastlon, coastlat,'k')
+%mapshow(GER, 'FaceColor', [0.9 0.9 0.7]);  %plot German boundaries
 geoshow('landareas.shp', 'FaceColor', [0.9 0.9 0.7])
 hold;
 mapshow(Rivers,'LineWidth',1.5);
-%G{i}.Nodes.Name = raw(:,3);
+%G{i}.Nodes.Name = raw(:,3);    %associate names to nodes if applicable
 h = plot(G{i});
-h.XData=cell2mat(raw5212(:,4));
-h.YData=cell2mat(raw5212(:,3));
-h.NodeCData=Deg;
-Betw=centrality(G{i},'betweenness');
-h.NodeCData=Betw/max(Betw);
-h.NodeLabel=[];
+h.XData=cell2mat(raw5212(:,4)); %set node longitude
+h.YData=cell2mat(raw5212(:,3)); %set node latitude
+h.NodeCData=Deg;    %scale node color by degree
+Betw=centrality(G{i},'betweenness'); %calculate node betweenness
+h.NodeCData=Betw/max(Betw); %scale node color by betweenness
+h.NodeLabel=[]; %remove node labels
 h.MarkerSize=6;
 h.LineWidth=0.2;
 h.EdgeColor='r';
 %colorbar
-%xlim([5 15]);  %GER
-%ylim([47 55]); %GER
-xlim([-10 32]); %Europe
-ylim([36 72]);  %Europe
+%xlim([5 15]);  %Limit to Germany
+%ylim([47 55]); %Limit to Germany
+xlim([-10 32]); %Limit to Europe
+ylim([36 72]);  %Limit to Europe
 firstYear=datestr(raw5212{1,7}(1+(i-1)*offset),'yyyy');
 lastYear=datestr(raw5212{1,7}(1+windowSize+(i-1)*offset),'yyyy');
 title([firstYear '-' lastYear],'FontSize',14);
