@@ -1,6 +1,7 @@
 %% import nc data variables
 
 input=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'rr'));
+%precipitation
 lon=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'longitude'));
 lat=single(ncread(['C:\Users\kemter\Documents\Data\Precipitation\E_OBS\rr_0.50deg_reg_v17.0.nc'],'latitude'));
 time=datetime(712223+(1:size(input,3)),'ConvertFrom','datenum');
