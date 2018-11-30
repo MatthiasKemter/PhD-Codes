@@ -2,3 +2,4 @@
 *.asv
 Matlab/Events.m
 Matlab/write_matrix_to_pajek.m
+Matlab/adj2gephilab.m
