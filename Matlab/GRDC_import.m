@@ -51,14 +51,15 @@ for i=1:F
     Lon=Loncell{9};
     fclose(fid);
     warning off;
-    if contains(ROI,country)    %only consider stations in countries of interest
+    %if contains(ROI,country)    %only consider stations in countries of interest
         data=readtable([files(i).folder '\' files(i).name],'HeaderLines',35);
         raw{j,1}=data{:,1}; %measurement time
         raw{j,2}=data{:,3}; %measured discharge
         raw{j,3}=Lat;   %station latitude
         raw{j,4}=Lon;   %station longitude
+        raw{j,7}=country;
         j=j+1;
-    end
+    %end
     warning on;
 end
 
@@ -90,7 +91,7 @@ for i=1:size(raw,1)
 end
 
 %transform timeseries cell to matrix for easier use
-discharge=reshape(cell2mat(raw(:,6)),size(raw{1,6},1),size(raw,1));
-discharge=discharge';
-
+%discharge=reshape(cell2mat(raw(:,6)),size(raw{1,6},1),size(raw,1));
+%discharge=discharge';
+discharge=1;
 end
