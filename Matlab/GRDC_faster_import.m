@@ -1,10 +1,11 @@
 %% USA + CA
 load('C:\Users\kemter\Documents\Data\GRDC_global.mat');
-startdate='25.10.1926';enddate='07.11.2016';
+startdate='25.10.1926';enddate='07.11.2016';    % for maxima analysis start
+% at the 25.10. and end at 07.11.
 threshold=0.02; %maximum allowed fraction of missing values in each time series
 time=datetime(startdate):datetime(enddate);
 % Spatial boundaries:
-raw(cell2mat(raw(:,3))>57,:)=[];    
+raw(cell2mat(raw(:,3))>57,:)=[];
 raw(cell2mat(raw(:,3))<26,:)=[];
 raw(cell2mat(raw(:,4))<-130,:)=[];
 raw(cell2mat(raw(:,4))>-60.97,:)=[];
